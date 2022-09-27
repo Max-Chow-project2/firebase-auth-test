@@ -1,6 +1,7 @@
 //this component is to bring in the google UI
 import { useEffect, useContext } from 'react';
 import AppContext from '../AppContext';
+import { signInAnonymously } from 'firebase/auth';
 
 import firebase from 'firebase/compat/app';
 import * as firebaseui from 'firebaseui'
@@ -8,7 +9,7 @@ import 'firebaseui/dist/firebaseui.css'
 
 function Login() {
 
-  const { auth, user } = useContext(AppContext)
+  const { auth, user } = useContext(AppContext);
   
   const uiConfig = {
     callbacks: {
@@ -29,12 +30,31 @@ function Login() {
     signInSuccessUrl: '<url-to-redirect-to-on-success>',
     signInOptions: [
       firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+      firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+      firebase.auth.TwitterAuthProvider.PROVIDER_ID,
+      firebase.auth.EmailAuthProvider.PROVIDER_ID
     ],
     // Terms of service url.
     tosUrl: '<your-tos-url>',
     // Privacy policy url.
     privacyPolicyUrl: '<your-privacy-policy-url>'
   };
+
+  function handleLoginAnon() {
+    signInAnonymously(auth)
+    .then(() => {
+      //for testing: set user uid to anonymous
+      console.log('signed in anonymously');
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+  }
+
+  function handleLogout() {
+    firebase.auth().signOut();
+    console.log('signed out');
+  }
 
   useEffect(() => {
     //firstly check if we already have an auth instance, if we do, then return true, if not, create a new firebase auth instance. this is to prevent firebase app duplicate error
@@ -47,9 +67,15 @@ function Login() {
   return (
     <div className="App">
       <h1>Welcome to My Awesome App</h1>
+      {/* google sign in */}
       <div id="firebaseui-auth-container"></div>
-      <div id="loader">Loading...</div>
+      {/* anon sign in */}
+      <button onClick={handleLoginAnon}>Sign in anonymously</button>
+      
+      <button onClick={handleLogout}>Sign Out</button>
       <div>{user?.uid ? user.uid : 'no uid'}</div>
+
+      <div id="loader">Loading...</div>
     </div>
   );
 }
