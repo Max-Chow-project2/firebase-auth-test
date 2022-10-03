@@ -1,41 +1,51 @@
 import {ref, get, onValue} from "firebase/database"
-import { useContext } from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import AppContext from "../contexts/AppContext";
+
+// components
+import FormSelectSplit from "./FormSelectSplit";
 
 export default function FormDisplaySeason() {
 
-    const { firebaseDB, user } = useContext(AppContext);
-    const [season, setSeason] = useState([]);
+	const { firebaseDB, user } = useContext(AppContext);
+	const [season, setSeason] = useState([]);
 
-    useEffect(() => {
+	// user selected season
+	const [selectedSeason, setSelectedSeason] = useState('');
 
-        const userDBRef = ref(firebaseDB, `/${user?.uid}/`)
-        
-        onValue(userDBRef, (response) => {
-            if (response.exists()) {
-                setSeason((prevState) => Object.keys(response.val()))
-                console.log(response.val())
-            }
-        })
+	useEffect(() => {
 
-    }, [])
+		const userDBRef = ref(firebaseDB, `/${user?.uid}/`);
+		
+		onValue(userDBRef, (response) => {
+			if (response.exists()) {
+				setSeason((prevState) => Object.keys(response.val()));
+				console.log(response.val());
+			}
+		})
+
+	}, [])
 
     const handleSelectSeason = function (e) {
-        // TODO
+      setSelectedSeason(e.target.value);
     }
 
     return (
-        <form>
-            <p>FormDisplaySeason</p>
-            <select onChange={(e) => { handleSelectSeason(e) }} id="selectSeason">
-                {season.map((item) => {
-                    return (
-                        // TODO: add keys, and handleSelectSeason
-                        <option>{item}</option>
-                    )                    
-                })}
-            </select>
-        </form>
+			<form>
+				<p>FormDisplaySeason</p>
+				<select onChange={(e) => { handleSelectSeason(e) }} id="selectSeason">
+
+					<option value='' defaultValue>Select Season</option>
+
+					{season.map((item, index) => {
+						return (
+							<option key={`season${index}`} value={item}>{`Season ${index + 1}`}</option>
+						)                    
+					})}
+				</select>
+
+				{selectedSeason ? <FormSelectSplit /> : null}
+
+			</form>
     )
 }

@@ -12,9 +12,9 @@ export default function FormCreateStats() {
     })
 
     const handleInputChangeGameStats = function (e) {
-        console.log(e.target)
-        console.log(e.target.value)
-        setGameStats((prevState)=>({...prevState, [e.target.id]:e.target.value}))
+        console.log(e.target);
+        console.log(e.target.value);
+        setGameStats((prevState)=>({...prevState, [e.target.id]:e.target.value}));
     }
 
     const handleSubmitGameStats = function (e) {
