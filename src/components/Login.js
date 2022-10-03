@@ -1,16 +1,18 @@
 //this component is to bring in the google UI
 import { useEffect, useContext } from 'react';
-import AppContext from '../AppContext';
+import AppContext from '../contexts/AppContext';
 import { signInAnonymously } from 'firebase/auth';
 
 import firebase from 'firebase/compat/app';
 import * as firebaseui from 'firebaseui'
 import 'firebaseui/dist/firebaseui.css'
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
 
   const { auth, user } = useContext(AppContext);
-  
+  const navigate = useNavigate()
+
   const uiConfig = {
     callbacks: {
       signInSuccessWithAuthResult: function (authResult, redirectUrl) {
@@ -27,7 +29,7 @@ function Login() {
     },
     // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
     signInFlow: 'popup',
-    signInSuccessUrl: '<url-to-redirect-to-on-success>',
+    signInSuccessUrl: '/season',
     signInOptions: [
       firebase.auth.GoogleAuthProvider.PROVIDER_ID,
       firebase.auth.FacebookAuthProvider.PROVIDER_ID,
@@ -53,6 +55,7 @@ function Login() {
 
   function handleLogout() {
     firebase.auth().signOut();
+    navigate('/')
     console.log('signed out');
   }
 
@@ -64,6 +67,13 @@ function Login() {
     ui.start('#firebaseui-auth-container', uiConfig);
   }, [auth])
 
+  // navigate out if user is already logged in
+  useEffect(() => {
+    if (user?.uid) {
+      navigate('/season')
+    }
+  }, [user])
+
   return (
     <div className="App">
       <h1>Welcome to My Awesome App</h1>
@@ -72,7 +82,8 @@ function Login() {
       {/* anon sign in */}
       <button onClick={handleLoginAnon}>Sign in anonymously</button>
       
-      <button onClick={handleLogout}>Sign Out</button>
+      {user?.uid ? <button onClick={handleLogout}>Sign Out</button> : null}
+      
       <div>{user?.uid ? user.uid : 'no uid'}</div>
 
       <div id="loader">Loading...</div>
