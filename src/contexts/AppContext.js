@@ -15,7 +15,7 @@ export function AppProvider({ children }) {
             //user.email to get their email
             //user.uid to get their unique id
             setUser((prevState) => (user));
-            setUserDBRef((prevState) => (ref(firebaseDB, `${user?.uid}`)))
+            setUserDBRef((prevState) => (ref(firebaseDB, `${user?.uid}`)));
 
             // if user is anonymous, set the uid to 'anonymous' to avoid multiple anon uids (1 account only)
             if (user.isAnonymous === true) {

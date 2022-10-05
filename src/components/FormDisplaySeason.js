@@ -12,6 +12,8 @@ export default function FormDisplaySeason() {
 
 	// user selected season
 	const [selectedSeason, setSelectedSeason] = useState('');
+	//all user game history
+	const [userGames, setUserGames] = useState({});
 
 	useEffect(() => {
 
@@ -21,6 +23,7 @@ export default function FormDisplaySeason() {
 			if (response.exists()) {
 				setSeason((prevState) => Object.keys(response.val()));
 				console.log(response.val());
+				setUserGames(response.val());
 			}
 		})
 
@@ -44,7 +47,10 @@ export default function FormDisplaySeason() {
 					})}
 				</select>
 
-				{selectedSeason ? <FormSelectSplit /> : null}
+				{selectedSeason ? 
+				<FormSelectSplit userGames={userGames} selectedSeason={selectedSeason}/> 
+				: null
+				}
 
 			</form>
     )

@@ -72,7 +72,7 @@ function Login() {
     if (user?.uid) {
       navigate('/season')
     }
-  }, [user])
+  }, [user]);
 
   return (
     <div className="App">

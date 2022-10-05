@@ -6,6 +6,7 @@ import FormCreateSeason from './components/FormCreateSeason';
 import FormDisplaySeason from './components/FormDisplaySeason';
 import FormSelectSplit from './components/FormSelectSplit';
 import { Routes, Route } from 'react-router-dom';
+
 import AppContext from './contexts/AppContext';
 import { useContext } from 'react';
 
@@ -15,7 +16,8 @@ function App() {
   
   return (
     <div className="App">
-      <Login></Login>
+      <Login />
+      
       {user ? <FormCreateSeason /> : null}
 
       <Routes>
