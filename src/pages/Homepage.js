@@ -1,6 +1,18 @@
-export function Homepage() {
+import Header from "../components/Header";
+import FormCreateSeason from "../components/FormCreateSeason";
+import FormDisplaySeason from "../components/FormDisplaySeason";
+import FormSelectSplit from "../components/FormSelectSplit";
+import FormCreateStats from "../components/FormCreateStats";
+
+export default function Homepage() {
   return (
-    <h1>this is the homepage</h1>
+    <div>
+      <Header />
+      {/* <FormCreateSeason />
+      <FormDisplaySeason /> */}
+      {/* <FormSelectSplit /> */}
+      {/* <FormCreateStats /> */}
+    </div>
   )
 }
 

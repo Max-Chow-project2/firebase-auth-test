@@ -7,8 +7,6 @@ export default function FormSelectSplit({ userGames, selectedSeason }) {
 	const { firebaseDB, user } = useContext(AppContext);
 	const [split, setSplit] = useState("split1");
 
-	console.log(userGames[selectedSeason][split])
-
 	const handleChangeSplit = function (e) {
 		console.log(e.target.value);
 		setSplit((prevState) => e.target.value);

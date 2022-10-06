@@ -20,7 +20,7 @@ export default function FormCreateSeason() {
 			if (snapshot.exists()) {
 				console.log(snapshot.val());
 				
-				navigate(`season/${Object.keys(snapshot.val())[Object.keys(snapshot.val()).length - 1]}`);
+				navigate(`${Object.keys(snapshot.val())[Object.keys(snapshot.val()).length - 1]}`);
 			}
 		})
 	},[user])

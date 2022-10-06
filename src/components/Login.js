@@ -2,16 +2,17 @@
 import { useEffect, useContext } from 'react';
 import AppContext from '../contexts/AppContext';
 import { signInAnonymously } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
 
 import firebase from 'firebase/compat/app';
 import * as firebaseui from 'firebaseui'
 import 'firebaseui/dist/firebaseui.css'
-import { useNavigate } from 'react-router-dom';
 
 function Login() {
+  const navigate = useNavigate();
 
-  const { auth, user } = useContext(AppContext);
-  const navigate = useNavigate()
+  const { auth, user, handleLogout } = useContext(AppContext);
+  
 
   const uiConfig = {
     callbacks: {
@@ -53,11 +54,11 @@ function Login() {
     })
   }
 
-  function handleLogout() {
-    firebase.auth().signOut();
-    navigate('/')
-    console.log('signed out');
-  }
+  // function handleLogout() {
+  //   firebase.auth().signOut();
+  //   navigate('/')
+  //   console.log('signed out');
+  // }
 
   useEffect(() => {
     //firstly check if we already have an auth instance, if we do, then return true, if not, create a new firebase auth instance. this is to prevent firebase app duplicate error
@@ -82,7 +83,7 @@ function Login() {
       {/* anon sign in */}
       <button onClick={handleLoginAnon}>Sign in anonymously</button>
       
-      {user?.uid ? <button onClick={handleLogout}>Sign Out</button> : null}
+      {/* {user?.uid ? <button onClick={handleLogout}>Sign Out</button> : null} */}
       
       <div>{user?.uid ? user.uid : 'no uid'}</div>
 

@@ -3,12 +3,20 @@ import { auth, firebaseDB } from "../firebase";
 import { get, ref, onValue} from "firebase/database"
 // https://firebase.google.com/docs/auth/web/manage-users
 import { onAuthStateChanged } from 'firebase/auth';
+import firebase from 'firebase/compat/app';
+import { useNavigate } from 'react-router-dom';
 
 const AppContext = createContext();
 
 export function AppProvider({ children }) {
+    const navigate = useNavigate();
     const [user, setUser] = useState({});
     const [userDBRef, setUserDBRef] = useState({});
+
+    function handleLogout() {
+        firebase.auth().signOut();
+        navigate('/login');
+    }
 
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
@@ -26,7 +34,7 @@ export function AppProvider({ children }) {
 
 
     return (
-        <AppContext.Provider value={{ auth, firebaseDB, user, userDBRef }}>
+        <AppContext.Provider value={{ auth, firebaseDB, user, userDBRef, handleLogout }}>
             {children}
         </AppContext.Provider>
     )
