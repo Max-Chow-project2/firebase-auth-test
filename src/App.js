@@ -15,8 +15,10 @@ import { useContext } from 'react';
 import Homepage from './pages/Homepage';
 
 function App() {
+  
 
   const {user} = useContext(AppContext);
+
   
   return (
     <div className="App">

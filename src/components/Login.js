@@ -11,7 +11,7 @@ import 'firebaseui/dist/firebaseui.css'
 function Login() {
   const navigate = useNavigate();
 
-  const { auth, user, handleLogout } = useContext(AppContext);
+  const { auth, user } = useContext(AppContext);
   
 
   const uiConfig = {
@@ -30,7 +30,7 @@ function Login() {
     },
     // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
     signInFlow: 'popup',
-    signInSuccessUrl: '/season',
+    signInSuccessUrl: '/',
     signInOptions: [
       firebase.auth.GoogleAuthProvider.PROVIDER_ID,
       firebase.auth.FacebookAuthProvider.PROVIDER_ID,
@@ -54,11 +54,6 @@ function Login() {
     })
   }
 
-  // function handleLogout() {
-  //   firebase.auth().signOut();
-  //   navigate('/')
-  //   console.log('signed out');
-  // }
 
   useEffect(() => {
     //firstly check if we already have an auth instance, if we do, then return true, if not, create a new firebase auth instance. this is to prevent firebase app duplicate error
@@ -66,14 +61,14 @@ function Login() {
     const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(auth);
 
     ui.start('#firebaseui-auth-container', uiConfig);
-  }, [auth])
+  }, [auth]);
 
   // navigate out if user is already logged in
-  useEffect(() => {
-    if (user?.uid) {
-      navigate('/season')
-    }
-  }, [user]);
+  // useEffect(() => {
+  //   if (auth.currentUser) {
+  //     navigate('/');
+  //   } 
+  // }, [auth.currentUser]);
 
   return (
     <div className="App">
