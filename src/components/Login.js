@@ -63,12 +63,12 @@ function Login() {
     ui.start('#firebaseui-auth-container', uiConfig);
   }, [auth]);
 
-  // navigate out if user is already logged in
-  // useEffect(() => {
-  //   if (auth.currentUser) {
-  //     navigate('/');
-  //   } 
-  // }, [auth.currentUser]);
+  //navigate out if user is already logged in
+  useEffect(() => {
+    if (auth.currentUser) {
+      navigate('/');
+    } 
+  }, [auth.currentUser]);
 
   return (
     <div className="App">

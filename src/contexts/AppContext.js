@@ -22,6 +22,7 @@ export function AppProvider({ children }) {
             // if user is anonymous, set the uid to 'anonymous' to avoid multiple anon uids (1 account only)
             if (user?.isAnonymous === true) {
                 user.uid = 'anonymous';
+                user.displayName = 'Anonymous';
             }
         })
     }, [])

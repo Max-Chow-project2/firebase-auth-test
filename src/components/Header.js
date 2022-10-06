@@ -6,8 +6,8 @@ import firebase from 'firebase/compat/app';
 export default function Header() {
   const navigate = useNavigate();
 
-  function handleLogout() {
-    firebase.auth().signOut();
+  async function handleLogout() {
+    await firebase.auth().signOut();
     navigate('/login');
   }
 
