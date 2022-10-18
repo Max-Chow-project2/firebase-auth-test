@@ -4,11 +4,13 @@ import { get, ref, onValue} from "firebase/database"
 // https://firebase.google.com/docs/auth/web/manage-users
 import { onAuthStateChanged } from 'firebase/auth';
 
+
 const AppContext = createContext();
 
 export function AppProvider({ children }) {
     const [user, setUser] = useState({});
     const [userDBRef, setUserDBRef] = useState({});
+
 
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
@@ -18,8 +20,9 @@ export function AppProvider({ children }) {
             setUserDBRef((prevState) => (ref(firebaseDB, `${user?.uid}`)));
 
             // if user is anonymous, set the uid to 'anonymous' to avoid multiple anon uids (1 account only)
-            if (user.isAnonymous === true) {
+            if (user?.isAnonymous === true) {
                 user.uid = 'anonymous';
+                user.displayName = 'Anonymous';
             }
         })
     }, [])

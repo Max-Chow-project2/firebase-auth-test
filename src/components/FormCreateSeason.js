@@ -6,21 +6,22 @@ import { useNavigate } from "react-router-dom"
 
 export default function FormCreateSeason() {
 
-	const { firebaseDB, user } = useContext(AppContext);
+	const { firebaseDB, user, auth } = useContext(AppContext);
 	const [season, setSeason] = useState();
 	const navigate = useNavigate();
 
+	console.log(auth)
 
 	// Automatically navigate to the most recent season if it exists
 	useEffect(() => {
-		const userRef = ref(firebaseDB, `/${user.uid}/`);
+		const userRef = ref(firebaseDB, `/${user?.uid}/`);
 
 		get(userRef).then((snapshot) => {
 
 			if (snapshot.exists()) {
 				console.log(snapshot.val());
 				
-				navigate(`season/${Object.keys(snapshot.val())[Object.keys(snapshot.val()).length - 1]}`);
+				// navigate(`${Object.keys(snapshot.val())[Object.keys(snapshot.val()).length - 1]}`);
 			}
 		})
 	},[user])
@@ -48,7 +49,7 @@ export default function FormCreateSeason() {
 				console.log(('entry does not exist; creating...'))
 				push(ref(firebaseDB, `/${user.uid}/season${season}/split1/`), {index:0});
 				push(ref(firebaseDB, `/${user.uid}/season${season}/split2/`), { index: 0 });
-				navigate(`season/season${season}`);
+				// navigate(`season/season${season}`);
 			}
 		})
 	}
