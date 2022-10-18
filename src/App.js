@@ -30,12 +30,9 @@ function App() {
         {/* Login page: default if not authenticated */}
         <Route path="/login" element={<Login />} />
 
-        {/* Create season screen */}
-        <Route path="/season" element={<FormCreateSeason />} />
-
         {/* Only display this if no seasons exist currently */}
         {/* <Route path="season/" element={} /> */}
-        <Route path="season/:seasonID" element={<FormDisplaySeason />} />
+        <Route path="season/:seasonID" element={<Homepage />} />
 
       </Routes>
 

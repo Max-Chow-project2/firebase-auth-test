@@ -19,6 +19,11 @@ export default function Homepage() {
     }
   }, [])
 
+  // Helper function to pad season number for alphabetic ordering
+  const padStart = (num) => {
+    return num.toString().padStart(3, "0")
+  }
+
   return (
     <div>
       <Header />
