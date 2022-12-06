@@ -1,14 +1,16 @@
 import { useContext, useState } from "react"
-
+import { ref, push } from "firebase/database"
 import AppContext from "../contexts/AppContext"
 
-export default function FormCreateStats() {
+export default function FormCreateStats({userGames, selectedSeason, split}) {
+
+    const { firebaseDB, user } = useContext(AppContext);
 
     const [gameStats, setGameStats] = useState({
-        inputRP: 0,
-        inputKills: 0,
-        inputAssists: 0,
-        inputParticipations: 0
+        rp: 0,
+        kills: 0,
+        assists: 0,
+        participations: 0
     })
 
     const handleInputChangeGameStats = function (e) {
@@ -19,27 +21,37 @@ export default function FormCreateStats() {
 
     const handleSubmitGameStats = function (e) {
         e.preventDefault();
-        // TODO: Read the route to get the season and split numbers to create the database reference
-        // TODO: Add the entry to firebase
+
+        push(ref(firebaseDB, `/${user.uid}/${selectedSeason}/${split}/`), {
+            index: Object.keys(userGames[selectedSeason][split]).length,
+            gameStats
+        });
+
+        setGameStats({
+            rp: 0,
+            kills: 0,
+            assists: 0,
+            participations: 0
+        })
     }
 
     return (
         <form onSubmit={(e) => { handleSubmitGameStats(e) }}>
             <div>
                 <label htmlFor="inputRP">RP</label>
-                <input type="number" id="inputRP" onChange={(e) => handleInputChangeGameStats(e)} />
+                <input type="number" id="rp" onChange={(e) => handleInputChangeGameStats(e)} value={gameStats.rp} required/>
             </div>
             <div>
                 <label htmlFor="inputKills">Kills</label>
-                <input type="number" id="inputKills" onChange={(e) => handleInputChangeGameStats(e)} />
+                <input type="number" id="kills" onChange={(e) => handleInputChangeGameStats(e)} value={gameStats.kills} required />
             </div>
             <div>
                 <label htmlFor="inputAssists">Assists</label>
-                <input type="number" id="inputAssists" onChange={(e) => handleInputChangeGameStats(e)} />
+                <input type="number" id="assists" onChange={(e) => handleInputChangeGameStats(e)} value={gameStats.assists} required />
             </div>
             <div>
                 <label htmlFor="inputParticipations">Paricipations</label>
-                <input type="number" id="inputParticipations" onChange={(e) => handleInputChangeGameStats(e)} />
+                <input type="number" id="participations" onChange={(e) => handleInputChangeGameStats(e)} value={gameStats.participations} required />
             </div>
             <button>Submit</button>
         </form>

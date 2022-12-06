@@ -51,9 +51,9 @@ export default function FormDisplaySeason() {
 		<div>
 			<form>
 				<p>FormDisplaySeason</p>
-				<select onChange={(e) => { handleSelectSeason(e) }} id="selectSeason" value={seasonID}>
+				<select onChange={(e) => { handleSelectSeason(e) }} id="selectSeason" value={seasonID} >
 
-					<option value='' defaultValue >Select Season</option>
+					<option value='' selected disabled defaultValue="Select Season" >Select Season</option>
 
 					{seasons.map((item, index) => {
 						return (
@@ -63,8 +63,11 @@ export default function FormDisplaySeason() {
 				</select>
 			</form>
 
-			{selectedSeason ? 
-			<FormSelectSplit userGames={userGames} selectedSeason={selectedSeason}/> 
+			{seasonID ? 
+				<>
+					<FormSelectSplit userGames={userGames} selectedSeason={seasonID} /> 
+					{seasonID}
+				</>
 			: null
 			}
 		</div>
